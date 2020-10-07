@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contatos</title>
+</head>
+<body>
+    <input type="text" placeholder="Digite o nome desejado" id="nome" required/>
+    <input type="text" placeholder="Digite o email desejado" id="email" required/>
+    <input type="text" placeholder="Digite o numero de telefone"  id="telefone" required/>
+
+    <button type="button" id='btnCadastrar'>Cadastrar</button>
+    <button type="button" id='btnRemover'>Remover</button>
+
+    <table>
+        <caption>Contatos</caption>
+        <thead>
+            <th>Nome</th>
+            <th>Email</th>
+            <th>Senha</th>
+        </thead>
+        <tbody id="tabela-lista-corpo"></tbody>
+    </table>   
+
+    <script>
+        let contatos = [{ 
+                            id : 1,
+                            nome : 'Fernando',
+                            email : 'fernando.guerra@sp.senai.br',
+                            telefone : '11972084334'
+                        }]
+
+         let btnCadastrar = document.querySelector("#btnCadastrar");  
+         
+         btnCadastrar.addEventListener('click', cadastrar);
+
+
+         let btnRemover = document.querySelector("#btnRemover");  
+         
+         btnRemover.addEventListener('click', Remover);
+
+
+    //Lista de contatos
+          function Listar(){
+              
+              let corpoTabela = document.querySelector('#tabela-lista-corpo');
+
+              corpoTabela.innerHTML = "";
+              let linha, colunaNome;
+
+              contatos.forEach(item =>{
+                  linha = document. createElement('th');
+                  colunaNome = document.createElement('td');
+
+                  colunaNome.innerHTML = item;
+
+                  linha.appendChild(colunaNome);
+                  
+                  corpoTabela.appendChild(linha);
+              })
+
+
+          }              
+    
+    //Cadastar um contato
+           function cadastrar(event){
+               event.preventDefault();
+
+           let nome = document.querySelector('#nome')
+
+           let email = document.querySelector('#email')
+
+           let telefone = document.querySelector('#telefone')
+
+           contatos.push(nome.value);
+
+           contatos.push(email.value);
+
+           contatos.push(telefone.value);
+
+           Listar();
+
+           nome.value = "";
+
+           email.value = "";
+
+           telefone.value = "";
+
+            alert('Contato cadastrado');  
+           }
+   
+    //Remove um contato
+          function Remover(event){
+            event.preventDefault()
+
+            let nome = document.querySelector('#nome')
+
+            let email = document.querySelector('#email')
+
+            let telefone = document.querySelector('#telefone')
+
+            let index = contatos.indexOf(nome.value, email.value, telefone.value);
+         
+            if(index > -1){
+                contatos.splice(index, 1);
+                contatos.splice(index, 2);
+                contatos.splice(index, 3);
+
+                alert('Contato Removido')
+                Listar();
+            }else{
+                alert('Contato não encontrado')
+            }
+          }
+   </script>
+</body>
+</html>
