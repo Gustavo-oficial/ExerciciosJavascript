@@ -79,8 +79,20 @@
          console.log('Nomes') 
          let nomeTimes = times.map(time => time.nome);
          console.log(nomeTimes);
-
         
+    console.log('Adiciona um time novo')
+         let time = {
+             nome = 'Wolves',
+             vitorias = 12,
+             empates = 8,
+             derrotas = 10,
+             golsproprio = 38,
+             golscontra = 36
+         }
+        times.push(time);
+        console.log(times);
+
+
         console.log('Jogos Campeonato') 
          let totalJogos = times.reduce((soma, cadaJogonaLista) => {
              return soma + parseInt(cadaJogonaLista.vitorias) +

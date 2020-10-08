@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Filmes</title>
+</head>
+<body>
+    
+    <form id="form">
+        <input type="text" id="nome" placeholder="Nome do filme" required>
+        <input type="text" id="categoria" placeholder="Categoria" required>
+        <input type="text" id="ano" placeholder="Ano de lançamento" required>
+
+        <button type="button" onclick="cadastrar()" id="btnCadastrar">Cadastrar</button>
+        <button type="button" onclick="remover()" id="btnRemover">Remover</button>
+
+        <table>
+            <caption>Filmes</caption>
+            <thead>
+                <th>
+                    Id
+                </th>
+                <th>
+                    Nome
+                </th>
+                <th>
+                    Categoria
+                </th>
+                <th>
+                    AnoLancamento
+                </th>
+            </thead>
+            <tbody id="tabela-lista-corpo"></tbody>
+        </table>
+    </form>
+
+</body>
+<script>
+    let url = 'https://5f7f8ed3d6aabe00166f0730.mockapi.io/api/Filmes'
+    let nome = document.querySelector('#nome');
+    let anoLancamento = document.querySelector('#ano');
+    let categoria = document.querySelector('#categoria');
+
+    function listar(){
+        let xhrGet = new XMLHttpRequest( );
+        xhrGet.onload = listarSucesso;
+        xhrGet.onerror = listarErro;
+        xhrGet.open ('GET', url);
+        xhrGet.send();
+    }
+
+    function listarSucesso(){
+        if(this.status === 200){
+            console.log(this.responseText);
+            let data = JSON.parse(this.responseText);
+            console.log(data);
+        }
+    }
+
+    function listarErro(err){
+        console.error(err);
+    }
+
+    function cadastrar(){
+        event.preventDefault();
+
+        //cria o objeto
+        const params = {
+            name : nome.value,
+            categoria : categoria.value,
+            anoLancamento : AnoLancamento.value
+        }
+
+        let xhrPost = new XMLHttpRequest();
+        xhrPost.onload = cadastroSucesso;
+        xhrPost.onerror = cadastroErro;
+        xhrPost.open('POST', url);
+        xhrPost.setRequestHeader('content-type', 'application/json');
+        xhrPost.send(JSON.stringify(params));
+    }
+
+    function cadastroSucesso(){
+        if(this.status === 201){
+            alert('Filme cadastrado');
+
+            listar();
+        }
+    }
+
+    function cadastroErro(err){
+        console.log('Erro de cadastro: ' + err);
+    }
+
+    function remover(){
+        event.preventDefault();
+
+        const params = {
+            name : nome.value,
+            categoria : categoria.value,
+            anoLancamento : AnoLancamento.value
+        }
+
+        let xhrDelete = new XMLHttpRequest();
+        xhrDelete.onload = removeSucesso;
+        xhrDelete.onerror = removeErro;
+        xhrDelete.open('DELETE', url + '/' + nome.value + categoria.value);
+        xhrDelete.send();
+    }
+
+    function removeSucesso(){
+        
+            alert('Filme removido');
+
+            listar();
+    }
+
+    function removeErro(err){
+        console.log('Erro ao remover: ' + err);
+    }
+    
+</script>
+</html>
